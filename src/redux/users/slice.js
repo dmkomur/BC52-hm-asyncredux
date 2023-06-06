@@ -1,25 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUsersThunk } from './operations';
+import { fetchUsersThunk, fetchUser, deleteUserThunk } from './operations';
 
 const userSlice = createSlice({
   name: 'users',
-  initialState: { users: [], isLoading: false, error: null },
+  initialState: { users: [], isLoading: false, error: null, currentUser: null },
   extraReducers: builder => {
     builder
-      .addCase(fetchUsersThunk.pending, state => {
-        state.isLoading = true;
-      })
       .addCase(fetchUsersThunk.fulfilled, (state, action) => {
         state.users = action.payload;
-          state.isLoading = false;
-                    state.error = null;
-
-      })
-      .addCase(fetchUsersThunk.rejected, (state, action) => {
+      }).addCase(fetchUser.fulfilled, (state, action) => {
+        state.currentUser = action.payload;
+       }).addCase(deleteUserThunk.fulfilled, (state, action) => {
+        state.users = state.users.filter(el => el.id !== action.payload)
+       })
+      .addMatcher(
+        action => action.type.endsWith('/pending'),
+        state => {
+          state.isLoading = true;
+        }
+      )
+      .addMatcher(
+        action => action.type.endsWith('/rejected'),
+        (state, action) => {
           state.error = action.payload;
-                  state.isLoading = false;
-
-      });
+          state.isLoading = false;
+        }
+      )
+      .addMatcher(
+        action => action.type.endsWith('/fulfilled'),
+        (state, action) => {
+          state.isLoading = false;
+          state.error = null;
+        }
+      );
   },
 });
 

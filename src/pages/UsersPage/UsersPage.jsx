@@ -15,7 +15,7 @@ export const UsersPage = () => {
     <ul>
       {allUsers.map(el => (
         <li key={el.id}>
-          <Link>{el.name}</Link>
+          <Link to={el.id}>{el.name}</Link>
         </li>
       ))}
     </ul>
