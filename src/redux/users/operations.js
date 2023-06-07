@@ -38,3 +38,14 @@ export const deleteUserThunk = createAsyncThunk(
     }
   }
 )
+export const addUserThunk = createAsyncThunk(
+  'user/add',
+  async (user, { rejectWithValue }) => {
+       try {
+      const newUser = await axios.post(`users/`, user);
+      return newUser
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+)

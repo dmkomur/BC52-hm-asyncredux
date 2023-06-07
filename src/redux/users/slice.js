@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUsersThunk, fetchUser, deleteUserThunk } from './operations';
+import { fetchUsersThunk, fetchUser, deleteUserThunk, addUserThunk } from './operations';
 
 const userSlice = createSlice({
   name: 'users',
@@ -12,6 +12,8 @@ const userSlice = createSlice({
         state.currentUser = action.payload;
        }).addCase(deleteUserThunk.fulfilled, (state, action) => {
         state.users = state.users.filter(el => el.id !== action.payload)
+       }).addCase(addUserThunk.fulfilled, (state, action) => {
+         state.users.push(action.payload)
        })
       .addMatcher(
         action => action.type.endsWith('/pending'),

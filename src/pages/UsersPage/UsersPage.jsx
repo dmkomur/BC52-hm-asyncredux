@@ -12,12 +12,15 @@ export const UsersPage = () => {
   }, [dispatch]);
   const allUsers = useSelector(usersSelector);
   return (
-    <ul>
-      {allUsers.map(el => (
-        <li key={el.id}>
-          <Link to={el.id}>{el.name}</Link>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {allUsers.map(el => (
+          <li key={el.id}>
+            <Link to={el.id}>{el.name}</Link>
+          </li>
+        ))}
+      </ul>
+      <Link to="add">Add user</Link>
+    </>
   );
 };
