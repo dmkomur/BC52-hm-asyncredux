@@ -21,6 +21,18 @@ export const registerThunk = createAsyncThunk(
         }
     }
 )
+export const loginThunk = createAsyncThunk(
+    'auth/login',
+    async (userData, { rejectWithValue }) => {
+        try {
+            const { data } = await axios.post('users/login', userData);
+            token.set(data.token)
+            return data
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
 
 export const logoutThunk = createAsyncThunk(
     'auth/logout',

@@ -1,4 +1,4 @@
-import { registerThunk, logoutThunk } from "./authOperations";
+import { registerThunk, logoutThunk, loginThunk } from "./authOperations";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -23,6 +23,12 @@ const authSlice = createSlice({
             state.user = initialState;
             state.isLoading = false;
             state.error = '';
+        }).addCase(loginThunk.fulfilled, (state, action) => {
+            state.user = action.payload.user;
+            state.token = action.payload.token;
+            state.isLoading = false;
+            state.error = '';
+
         })
     }
 }
